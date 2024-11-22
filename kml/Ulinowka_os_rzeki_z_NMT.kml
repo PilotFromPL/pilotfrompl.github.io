@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="kml_z_nmt" id="kml_z_nmt">
+	<SimpleField name="id" type="float"></SimpleField>
+</Schema>
+<Folder><name>kml_z_nmt</name>
+  <Placemark>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+      <MultiGeometry><LineString><coordinates>23.3509499661648,51.4822353875089 23.3511354839151,51.4821326918156 23.353554085696,51.4814967633339 23.3561735329046,51.481541528776 23.3578268078982,51.4813558835678 23.3613490024499,51.4812466027018 23.3617422366555,51.4811360049323 23.3620593610149,51.4811109887329</coordinates></LineString></MultiGeometry>
+  </Placemark>
+</Folder>
+</Document></kml>

@@ -30,6 +30,10 @@
     <script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
 	<script src="https://geoportalpl.github.io/leaflet.projwmts/src/TileLayer.ProjWMTS.js"></script>
 
+	<!-- AJAX Leaflet (for GeoJSON file) -->
+
+	<script src="js/leaflet.ajax.min.js"></script>
+	
 	<!-- STYLE -->
 	<style>
 
@@ -138,8 +142,14 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		opacity: 1.0, 
 		attribution: "", 
 		//minZoom: 10, 
-		//maxZoom: 20
+		maxZoom: 4,
 	}).addTo(map);
+
+	
+
+	// DODANIE linii z NMT
+	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX("geojson/Ulinowka_fragment_linia_z_NMT.geojson");       
+	UlinowkaLinefromNMT.addTo(map);
 
 	var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 		
@@ -147,6 +157,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		'NMT (WMS)': gugikNMT,
 		'BDOT10K (WMTS)':bdot10k,
 		'Drone Ortophoto': droneOrtoTiles,
+		'River line from NMT':  UlinowkaLinefromNMT,
 	};
 	
 		
@@ -155,7 +166,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		(null, overlayMaps,
 		// OPTIONS:
 		{
-			collapsed: false,	// on Desktop menu will not be collapsed, on mobile will be collapsed
+			collapsed: false, // how to make collapsed on mobile only ???
 		}
 	).addTo(map);
 
