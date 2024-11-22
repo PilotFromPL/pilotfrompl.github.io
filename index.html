@@ -96,7 +96,8 @@ var map = L.map('map', {
 		  //crs: L.CRS.EPSG4326,
 		  zoom: 16,
 		  // maxBounds: [[-90, -180], [90, 180]],
-		  minZoom: 3,
+		  //minZoom: 10,
+		  //maxZoom: 20,
 		  // ================================
 		  center: [51.481466, 23.357970],			//center on Ulinówka
 		  // ================================
@@ -135,21 +136,27 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
             //opacity: 0.8,
             crossOrigin: true,
             //minZoom: 5
+			maxZoom: 20,
         }).addTo(map);
 
     var droneOrtoTiles = L.tileLayer('tiles/./{z}/{x}/{y}.png', {
 		tms: 1, 
 		opacity: 1.0, 
-		attribution: "", 
+		//attribution: "", 
 		//minZoom: 10, 
-		maxZoom: 4,
+		maxZoom: 20,
 	}).addTo(map);
 
 	
 
 	// DODANIE linii z NMT
-	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX("geojson/Ulinowka_fragment_linia_z_NMT.geojson");       
-	UlinowkaLinefromNMT.addTo(map);
+	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX ("geojson/Ulinowka_fragment_linia_z_NMT.geojson", {
+		//crossOrigin: true,
+	}
+	);       
+	
+	
+	//UlinowkaLinefromNMT.addTo(map);
 
 	var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 		
