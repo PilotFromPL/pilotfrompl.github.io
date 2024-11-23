@@ -33,6 +33,10 @@
 	<!-- AJAX Leaflet (for GeoJSON file) -->
 
 	<script src="js/leaflet.ajax.min.js"></script>
+
+	<!-- Better Scale Bar plugin: -->
+	<link rel="stylesheet" href="plugins/L.Control.BetterScale/L.Control.BetterScale.css">
+	<script src="plugins/L.Control.BetterScale/L.Control.BetterScale.js"></script>
 	
 	<!-- STYLE -->
 	<style>
@@ -151,35 +155,72 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 
 	// DODANIE linii z NMT
 	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX ("geojson/Ulinowka_fragment_linia_z_NMT.geojson", {
-		//crossOrigin: true,
-	}
-	);       
-	
-	
-	//UlinowkaLinefromNMT.addTo(map);
-
-	var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 		
-	var overlayMaps = {
+	}
+	).addTo(map);       
+	
+	
+
+	//var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
+
+	var baseMaps = {
 		'NMT (WMS)': gugikNMT,
 		'BDOT10K (WMTS)':bdot10k,
+	}
+		
+	var overlayMaps = {
 		'Drone Ortophoto': droneOrtoTiles,
 		'River line from NMT':  UlinowkaLinefromNMT,
 	};
 	
 		
-	// dodaje tylko nakładki (wybieralne):
-	L.control.layers
-		(null, overlayMaps,
+	// dodawanie kotrolek:
+	var layerControl = L.control.layers
+		(baseMaps, overlayMaps,
 		// OPTIONS:
 		{
 			collapsed: false, // how to make collapsed on mobile only ???
 		}
 	).addTo(map);
 
+	L.control.betterscale(
+		{
+			metric: true,
+			imperial: false,
+		}
+	).addTo(map);
+
 	// EXAMPLES FOR FUTURE USE ? :
 	//layerControl.addBaseLayer(bdot10k, "OpenTopoMap");
 	//layerControl.addOverlay( droneOrtoTiles, "Dron ORTO");
+	
+	// ////////////////////////////////////////////////////////////////// 
+	
+	// SWÓJ DIV (podobny do layerControl)
+
+	L.Control.Kontener = L.Control.extend({
+    onAdd: function(map) {
+        var div = L.DomUtil.create('div');
+
+		div.style.width = ""+ layerControl._container.offsetWidth + 'px'; // ustawia szerokość mojego diva na szerokość Leafletowego l.control.layers
+		div.style.height = "200px";
+		div.style.background ="white";
+		// to jeszcze nie działa:
+		var a = L.DomUtil.create('a',div);
+		a.href = 'https://www.w3schools.com">Visit W3Schools</a>teeeeeest';
+        return div;
+    },
+
+    onRemove: function(map) {
+        // Nothing to do here
+    }
+	});
+
+	L.control.kontener = function(opts) {
+    return new L.Control.Kontener(opts);
+	}
+
+	L.control.kontener({ position: 'topright' }).addTo(map);
     
 </script>
 
