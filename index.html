@@ -196,12 +196,21 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	//layerControl.addOverlay( droneOrtoTiles, "Dron ORTO");
 	
 	// ////////////////////////////////////////////////////////////////// 
+	// controlLayer modifying:
+
+
+	// duplicate original separator and append:
 	
+	layerControl.getContainer().appendChild(layerControl._separator.cloneNode(true));
+	
+	// create and append a href element :
 	var aLink = L.DomUtil.create('a');
-	aLink.text = 'Im the map';
-	const separator2 = layerControl._separator.cloneNode(true);
-	layerControl.getContainer().appendChild(separator2); 
+	aLink.text = 'download ODM report file';
+	aLink.href = 'WebODM report\82-23102024\82-23102024_report.pdf';
 	layerControl.getContainer().appendChild(aLink);
+
+	
+	
 
 
 	//L.Control.dodatekLink = L.Control.extend({
