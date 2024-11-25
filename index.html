@@ -127,7 +127,6 @@ var gugikNMT = L.tileLayer.wms('https://mapy.geoportal.gov.pl/wss/service/PZGIK/
                 //maxZoom: 21
             });    
 
-
 var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/BDOT10k', {
             format: 'image/png',
             tileSize: 512,
@@ -151,16 +150,10 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		maxZoom: 20,
 	}).addTo(map);
 
-	
-
 	// DODANIE linii z NMT
-	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX ("geojson/Ulinowka_fragment_linia_z_NMT.geojson", {
-		
-	}
+	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX ("geojson/Ulinowka_fragment_linia_z_NMT.geojson", {	}
 	).addTo(map);       
 	
-	
-
 	//var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 
 	var baseMaps = {
@@ -173,67 +166,32 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		'River line from NMT':  UlinowkaLinefromNMT,
 	};
 	
-		
 	// dodawanie kotrolek:
 	var layerControl = L.control.layers
 		(baseMaps, overlayMaps,
 		// OPTIONS:
-		{
-			collapsed: false, // how to make collapsed on mobile only ???
-		}
-	).addTo(map);
+		{ collapsed: false,} 	// how to make collapsed on mobile only ???
+		).addTo(map);
 
-// PLUGIN BetterScale (Bar)
+	// PLUGIN BetterScale (Bar)
 	L.control.betterscale(
-		{
-			metric: true,
-			imperial: false,
-		}
+		{ metric: true, imperial: false,}
 	).addTo(map);
-
-	// EXAMPLES FOR FUTURE USE ? :
-	//layerControl.addBaseLayer(bdot10k, "OpenTopoMap");
-	//layerControl.addOverlay( droneOrtoTiles, "Dron ORTO");
 	
 	// ////////////////////////////////////////////////////////////////// 
 	// controlLayer modifying:
 
-
-	// duplicate original separator and append:
-	
+	// duplicate original separator and append:	
 	layerControl.getContainer().appendChild(layerControl._separator.cloneNode(true));
 	
 	// create and append a href element :
 	var aLink = L.DomUtil.create('a');
 	aLink.text = 'download ODM report file';
-	aLink.href = 'WebODM report/82-23102024/82-23102024_report.pdf target="_blank';
+	aLink.href = 'https://pilotfrompl.github.io/WebODM report/82-23102024/82-23102024_report.pdf';
+	aLink.target = '_blank';
 	layerControl.getContainer().appendChild(aLink);
 
-	
-	
 
-
-	//L.Control.dodatekLink = L.Control.extend({
-    //onAdd: function(map) {
-    //    var aLink = L.DomUtil.create('a');
-	//	aLink.text = 'Im the map';
-		//div.style.width = ""+ layerControl._container.offsetWidth + 'px'; // ustawia szerokość mojego diva na szerokość Leafletowego l.control.layers
-		//div.style.height = "200px";
-		
-
-    //    return aLink;
-    //},
-
-    //onRemove: function(map) {
-        // Nothing to do here
-    //}
-	//});
-
-	//L.control.dodatekLink = function(opts) {
-    //return new L.Control.dodatekLink(opts);
-	//}
-
-	//L.control.dodatekLink({ position: 'topright' }).addTo(map);
     
 </script>
 
