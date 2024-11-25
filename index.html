@@ -183,6 +183,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		}
 	).addTo(map);
 
+// PLUGIN BetterScale (Bar)
 	L.control.betterscale(
 		{
 			metric: true,
@@ -196,31 +197,34 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	
 	// ////////////////////////////////////////////////////////////////// 
 	
-	// SWÓJ DIV (podobny do layerControl)
+	var aLink = L.DomUtil.create('a');
+	aLink.text = 'Im the map';
+	const separator2 = layerControl._separator.cloneNode(true);
+	layerControl.getContainer().appendChild(separator2); 
+	layerControl.getContainer().appendChild(aLink);
 
-	L.Control.Kontener = L.Control.extend({
-    onAdd: function(map) {
-        var div = L.DomUtil.create('div');
 
-		div.style.width = ""+ layerControl._container.offsetWidth + 'px'; // ustawia szerokość mojego diva na szerokość Leafletowego l.control.layers
-		div.style.height = "200px";
-		div.style.background ="white";
-		// to jeszcze nie działa:
-		var a = L.DomUtil.create('a',div);
-		a.href = 'https://www.w3schools.com">Visit W3Schools</a>teeeeeest';
-        return div;
-    },
+	//L.Control.dodatekLink = L.Control.extend({
+    //onAdd: function(map) {
+    //    var aLink = L.DomUtil.create('a');
+	//	aLink.text = 'Im the map';
+		//div.style.width = ""+ layerControl._container.offsetWidth + 'px'; // ustawia szerokość mojego diva na szerokość Leafletowego l.control.layers
+		//div.style.height = "200px";
+		
 
-    onRemove: function(map) {
+    //    return aLink;
+    //},
+
+    //onRemove: function(map) {
         // Nothing to do here
-    }
-	});
+    //}
+	//});
 
-	L.control.kontener = function(opts) {
-    return new L.Control.Kontener(opts);
-	}
+	//L.control.dodatekLink = function(opts) {
+    //return new L.Control.dodatekLink(opts);
+	//}
 
-	L.control.kontener({ position: 'topright' }).addTo(map);
+	//L.control.dodatekLink({ position: 'topright' }).addTo(map);
     
 </script>
 
