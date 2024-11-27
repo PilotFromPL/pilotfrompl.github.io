@@ -10,15 +10,11 @@
 	
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- TITLE ~~ TITLE ~~ TITLE ~~ TITLE ~~ -->
-	<title>(▯) Drone orto on map v 1.0 (▯)</title>
+	<title>Drone orto on map</title>
 	<!-- TITLE ~~ TITLE ~~ TITLE ~~ TITLE ~~ -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+	<link rel="shortcut icon" type="image/x-icon" href="images\favicon.ico" />
 
 	<!-- LEAFLET sources -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -41,16 +37,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
           integrity="sha512-gc3xjCmIy673V6MyOAZhIW93xhM9ei1I+gLbmFjUHIjocENRsLX/QUE1htk5q1XV2D/iie/VQ8DXI6Vu8bexvQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
             integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- Leaflet QgsMeasure -->
-    <script type="application/javascript"
-            src="https://unpkg.com/leaflet-qgsmeasure@0.0.8/dist/leaflet.qgsmeasure.min.js"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-qgsmeasure@0.0.8/dist/leaflet.qgsmeasure.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="plugins/Leaflet.QgsMeasure/leaflet.qgsmeasure.min.js"></script>
+
+    <link rel="stylesheet" href="plugins/Leaflet.QgsMeasure/leaflet.qgsmeasure.css"
+         />
 
 
 	<!-- STYLE  STYLE STYLE STYLE STYLE STYLE STYLE STYLE STYLE-->
@@ -110,7 +106,6 @@
             "EPSG:2180",
             "+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs", {});
 
-
 var map = L.map('map', {
 		  //crs: L.CRS.EPSG4326,
 		  zoom: 16,
@@ -132,7 +127,7 @@ var gugikNMT = L.tileLayer.wms('https://mapy.geoportal.gov.pl/wss/service/PZGIK/
                 layers: 'Raster',
                 format: 'image/jpeg',
                 transparent: false,
-                //maxZoom: 21
+                maxZoom: 21
             });    
 
 var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/BDOT10k', {
@@ -147,7 +142,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
             //opacity: 0.8,
             crossOrigin: true,
             //minZoom: 5
-			maxZoom: 20,
+			maxZoom: 21,
         }).addTo(map);
 
     var droneOrtoTiles = L.tileLayer('tiles/./{z}/{x}/{y}.png', {
@@ -200,13 +195,11 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	aLink.target = '_blank';
 	layerControl.getContainer().appendChild(aLink);
 
-
-	L.Control.qgsmeasure()
+	// add qgsMeasure (css icon changed by me)
+	var qgsMeasure = L.Control.qgsmeasure()
     .addTo(map);
-    
+
 </script>
-
-
 
 </body>
 </html>
