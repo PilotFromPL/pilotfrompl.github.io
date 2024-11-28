@@ -151,11 +151,11 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		maxZoom: 20,
 	}).addTo(map);
 
-	// DODANIE linii z NMT
+	// DODANIE linii z NMT (GeoJson)
 
 	var myStyle = {
-        "color": "#ff7800",
-        "weight": 5,
+        "color": "01ffe1",
+        "weight": 3,
         "opacity": 1,
     };
 
@@ -236,10 +236,12 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	// add measure line from Leaflet.PolylineMeasure plugin - to show ortophoto displacement at the end of river
 
 	const line1coords = [
-  		{ lat: 51.48232235 , lng: 23.35074796  },
+  		{ lat: 51.48233278 , lng: 23.35075645  },
 		{ lat: 51.48238567 , lng: 23.35082914 },
 		//51.48231469, 23.35076436
 		//51.48238567, 23.35082914
+
+		// 51.48233278, 23.35075645
 	];
 
 	const line2coords = [
