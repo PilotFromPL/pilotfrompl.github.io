@@ -29,6 +29,10 @@
 
 	<script src="js/leaflet.ajax.min.js"></script>
 
+	<!-- jQuery library -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 	<!-- Better Scale Bar plugin: -->
 	<link rel="stylesheet" href="plugins/L.Control.BetterScale/L.Control.BetterScale.css">
 	<script src="plugins/L.Control.BetterScale/L.Control.BetterScale.js"></script>
@@ -148,8 +152,24 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	}).addTo(map);
 
 	// DODANIE linii z NMT
-	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX ("geojson/Ulinowka_fragment_linia_z_NMT.geojson", {	}
-	).addTo(map);       
+
+	var myStyle = {
+        "color": "#ff7800",
+        "weight": 5,
+        "opacity": 1,
+    };
+
+	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX
+	 ("geojson/Ulinowka_koryto.geojson", 
+	 {	
+		style:myStyle
+
+	 }
+	);
+	
+	UlinowkaLinefromNMT.on('data:loaded', function(){
+	UlinowkaLinefromNMT.addTo(map);
+	});
 	
 	//var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 
