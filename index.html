@@ -33,21 +33,15 @@
 	<link rel="stylesheet" href="plugins/L.Control.BetterScale/L.Control.BetterScale.css">
 	<script src="plugins/L.Control.BetterScale/L.Control.BetterScale.js"></script>
 
-	<!-- Dependency to Leaflet Draw -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
-          integrity="sha512-gc3xjCmIy673V6MyOAZhIW93xhM9ei1I+gLbmFjUHIjocENRsLX/QUE1htk5q1XV2D/iie/VQ8DXI6Vu8bexvQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	<!-- Leaflet.PolylineMeasure -->
+	<!-- WORKING IN ANDROID  ! -->
+	<!-- https://github.com/ppete2/Leaflet.PolylineMeasure -->
+	<!-- https://ppete2.github.io/Leaflet.PolylineMeasure/demo1.html  -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
-            integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
+	<script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
 
-	<!-- Leaflet QgsMeasure -->
-    <script src="plugins/Leaflet.QgsMeasure/leaflet.qgsmeasure.min.js"></script>
-
-    <link rel="stylesheet" href="plugins/Leaflet.QgsMeasure/leaflet.qgsmeasure.css"
-         />
-
+	<!-- ================================================================================================================================================================ -->
 
 	<!-- STYLE  STYLE STYLE STYLE STYLE STYLE STYLE STYLE STYLE-->
 	<style>
@@ -111,7 +105,7 @@ var map = L.map('map', {
 		  zoom: 16,
 		  // maxBounds: [[-90, -180], [90, 180]],
 		  //minZoom: 10,
-		  //maxZoom: 20,
+		  maxZoom: 21,
 		  // ================================
 		  center: [51.481466, 23.357970],			//center on Ulinówka
 		  // ================================
@@ -160,7 +154,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	//var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 
 	var baseMaps = {
-		'No base map': L.tileLayer(''),
+		'No base map': L.tileLayer('',{maxZoom:21}),
 		'NMT (WMS)': gugikNMT,
 		'BDOT10K (WMTS)':bdot10k,
 	}
@@ -170,11 +164,11 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		'River line from NMT':  UlinowkaLinefromNMT,
 	};
 	
-	// dodawanie kotrolek:
+	// dodawanie kotrolki layerControl:
 	var layerControl = L.control.layers
 		(baseMaps, overlayMaps,
 		// OPTIONS:
-		{ collapsed: false,} 	// how to make collapsed on mobile only ???
+		{ collapsed: false,} 	// how to make collapsed on mobile only ??? Currently no sense because of layerControl DIV mod 
 		).addTo(map);
 
 	// PLUGIN BetterScale (Bar)
@@ -183,7 +177,8 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	).addTo(map);
 	
 	// ////////////////////////////////////////////////////////////////// 
-	// controlLayer modifying:
+	// controlLayer modifying: 
+	// ACHTUUNG ! MODIFY IN THIS WAY CAUSES layerControl NOT COLLAPSABLE !!! 
 
 	// duplicate original separator and append:	
 	layerControl.getContainer().appendChild(layerControl._separator.cloneNode(true));
@@ -195,9 +190,47 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	aLink.target = '_blank';
 	layerControl.getContainer().appendChild(aLink);
 
-	// add qgsMeasure (css icon changed by me)
-	var qgsMeasure = L.Control.qgsmeasure()
-    .addTo(map);
+	// add Leaflet.PolylineMeasure (this measure works in android)
+	let polylineMeasure = L.control.polylineMeasure(
+		{
+			position: 'topleft',
+			unit: 'kilometres',
+			useSubunits: true, 
+			showBearings: false,
+			//measureControlLabel: 'pomiar',
+			showClearControl: true,
+			clearControlTitle: 'Clear Measurements',
+			clearMeasurementsOnStop: false, 			// without this - no line (seed)
+
+			startCircle: {                  // Style settings for circle marker indicating the starting point of the polyline
+        		color: '#000',              // Color of the border of the circle
+        		weight: 1,                  // Weight of the circle
+        		fillColor: '#0f0',          // Fill color of the circle
+        		fillOpacity: 1,             // Fill opacity of the circle
+        		radius: 3                   // Radius of the circle
+    		},
+
+		}
+		).addTo(map);
+
+	// add measure line from Leaflet.PolylineMeasure plugin - to show ortophoto displacement at the end of river
+
+	const line1coords = [
+  		{ lat: 51.48232235 , lng: 23.35074796  },
+		{ lat: 51.48238567 , lng: 23.35082914 },
+		//51.48231469, 23.35076436
+		//51.48238567, 23.35082914
+	];
+
+	const line2coords = [
+    	{ lat: 51.48109582, lng: 23.36226234 },
+    	{ lat: 51.48117139, lng: 23.36230169 }
+		// 51.48109582, 23.36226234
+		// 51.48117139, 23.36230169
+	];
+
+    polylineMeasure.seed([line1coords, line2coords]);
+
 
 </script>
 
