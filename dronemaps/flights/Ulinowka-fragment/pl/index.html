@@ -133,11 +133,11 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
             tileSize: 512,
             version: '1.0.0',
             transparent: false,
+			 //opacity: 0.8,
             crs: crs,
             origin: [850000.0, 100000.0],
             scales: [7559538.928571429, 3779769.4642857146, 1889884.7321428573, 944942.3660714286, 472471.1830357143, 236235.59151785716, 94494.23660714286, 47247.11830357143, 23623.559151785714, 9449.423660714287, 4724.711830357143, 1889.8847321428573, 944.9423660714286, 472.4711830357143],
             tilematrixSet: 'EPSG:2180',
-            //opacity: 0.8,
             crossOrigin: true,
             //minZoom: 5
 			maxZoom: 21,
@@ -148,7 +148,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 		opacity: 1.0, 
 		//attribution: "", 
 		//minZoom: 10, 
-		maxZoom: 20,
+		maxZoom: 21,
 	}).addTo(map);
 
 	// DODANIE linii z NMT (GeoJson)
@@ -268,7 +268,25 @@ var zoomInfoDiv = L.control.zoomInfo({ position: 'bottomleft' }).addTo(map); // 
 ////////////////
 // ADD Control ...
 
+L.Control.infoCollapsedDiv = L.Control.extend({
+    onAdd: function(map) {
+        
+		var div = L.DomUtil.create('div');
+		div.innerText = 'TEST\nTEST';
+        return div;
+    },
 
+    onRemove: function(map) {
+        // Nothing to do here
+    },
+
+});
+
+L.control.infoCollapsedDiv = function(opts) {
+    return new L.Control.infoCollapsedDiv(opts);
+}
+
+var info1Div = L.control.infoCollapsedDiv({ position: 'topright' }).addTo(map);
 
 
 ////////////////////////////////////////////
