@@ -155,21 +155,20 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 
 	var myStyle = {
         "color": "#01ffe1",
-        "weight": 3,
+        "weight": 1,
         "opacity": 1,
     };
 
 	var UlinowkaLinefromNMT = new L.GeoJSON.AJAX
 	 ("geojson/Ulinowka_4326.geojson", 
-	 {	
-		style:myStyle
-
-	 }
-	);
+	 {	style:myStyle}
+	).addTo(map);
 	
-	UlinowkaLinefromNMT.on('data:loaded', function(){
-	UlinowkaLinefromNMT.addTo(map);
-	});
+	// possibility to add when if GeoJson layer is not visible
+
+	//UlinowkaLinefromNMT.on('data:loaded', function(){
+	//UlinowkaLinefromNMT.addTo(map);
+	//});
 	
 	//var overlaysGroup = L.layerGroup([bdot10k, gugikNMT,droneOrtoTiles]);
 
@@ -188,7 +187,7 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	var layerControl = L.control.layers
 		(baseMaps, overlayMaps,
 		// OPTIONS:
-		{ collapsed: false,} 	// how to make collapsed on mobile only ??? Currently no sense because of layerControl DIV mod 
+		{ collapsed: true,} 	// how to make collapsed on mobile only ??? Currently no sense because of layerControl DIV mod 
 		).addTo(map);
 
 	// PLUGIN BetterScale (Bar)
@@ -197,20 +196,15 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	).addTo(map);
 	
 	// ////////////////////////////////////////////////////////////////// 
-	// controlLayer modifying: 
-	// ACHTUUNG ! MODIFY IN THIS WAY CAUSES layerControl NOT COLLAPSABLE !!! 
-
-	// duplicate original separator and append:	
-	layerControl.getContainer().appendChild(layerControl._separator.cloneNode(true));
 	
 	// create and append a href element :
-	var aLink = L.DomUtil.create('a');
-	aLink.text = 'download ODM report file';
-	aLink.href = 'WebODM report/82-23102024_report.pdf';
-	aLink.target = '_blank';
-	layerControl.getContainer().appendChild(aLink);
+	//var aLink = L.DomUtil.create('a');
+	//aLink.text = 'download ODM report file';
+	//aLink.href = 'WebODM report/82-23102024_report.pdf';
+	//aLink.target = '_blank';
+	//layerControl.getContainer().appendChild(aLink);
 
-	// add Leaflet.PolylineMeasure (this measure works in android)
+	// add Leaflet.PolylineMeasure (this measure plugin works in android)
 	let polylineMeasure = L.control.polylineMeasure(
 		{
 			position: 'topleft',
@@ -238,20 +232,58 @@ var bdot10k = L.tileLayer.projwmts('https://mapy.geoportal.gov.pl/wss/service/WM
 	const line1coords = [
   		{ lat: 51.48233278 , lng: 23.35075645  },
 		{ lat: 51.48238567 , lng: 23.35082914 },
-		//51.48231469, 23.35076436
-		//51.48238567, 23.35082914
-
-		// 51.48233278, 23.35075645
 	];
 
 	const line2coords = [
     	{ lat: 51.48109582, lng: 23.36226234 },
     	{ lat: 51.48117139, lng: 23.36230169 }
-		// 51.48109582, 23.36226234
-		// 51.48117139, 23.36230169
 	];
 
     polylineMeasure.seed([line1coords, line2coords]);
+
+////////////////////////////////////////////////////////////////////////////
+// ADDING OWN ELEMENTS
+
+// ADD actual Zoom info (tekst in DIV)
+
+L.Control.zoomInfo = L.Control.extend({
+    onAdd: function(map) {
+        
+		var div = L.DomUtil.create('div');
+        div.innerHTML = 'actual zoom:'+ map.getZoom();
+        return div;
+    },
+
+    onRemove: function(map) {
+        // Nothing to do here
+    },
+
+});
+
+L.control.zoomInfo = function(opts) {
+    return new L.Control.zoomInfo(opts);
+}
+
+var zoomInfoDiv = L.control.zoomInfo({ position: 'bottomleft' }).addTo(map); // var zoomInfoDiv - because I use it in onMapZoom functin
+////////////////
+// ADD Control ...
+
+
+
+
+////////////////////////////////////////////
+// EVENT: MAP ZOOM - ACTUALIZE zoomInfoDiv
+
+function onMapZoom(e) {
+
+	zoomInfoDiv.getContainer().innerText = 'actual zoom:'+ map.getZoom();
+	
+}
+
+// EVENT ZOOM triggered and call for onMapZoom function
+map.on('zoom', onMapZoom); 
+/////////////////////////////////////////////
+
 
 
 </script>
