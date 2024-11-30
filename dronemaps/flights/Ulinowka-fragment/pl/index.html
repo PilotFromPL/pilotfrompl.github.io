@@ -276,7 +276,7 @@ L.Control.infoDiv = L.Control.extend({
 		var a = document.createElement('a');
 		a.setAttribute('href','https://pilotfrompl.github.io/dronemaps/flights/Ulinowka-fragment/pl/WebODM%20report/82-23102024_report.pdf');
 		a.setAttribute('target', '_blank');
-		a.innerHTML= 'Download WebODM report';
+		a.innerHTML= 'WebODM report';
 		
 		div.appendChild(a);
 		return div;
@@ -295,8 +295,10 @@ L.control.infoDiv = function(opts) {
 
 var info1Div = L.control.infoDiv({ position: 'bottomright' }).addTo(map);
 info1Div.getContainer().style.background ='#fff';
-info1Div.getContainer().style.padding = '1px';
+info1Div.getContainer().style.padding = '2px';
 info1Div.getContainer().style.margin = '2px';
+info1Div.getContainer().style.border = '1px solid black';
+
 
 ////////////////////////////////////////////
 // EVENT: MAP ZOOM - ACTUALIZE zoomInfoDiv
