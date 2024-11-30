@@ -268,12 +268,19 @@ var zoomInfoDiv = L.control.zoomInfo({ position: 'bottomleft' }).addTo(map); // 
 ////////////////
 // ADD Control ...
 
-L.Control.infoCollapsedDiv = L.Control.extend({
+L.Control.infoDiv = L.Control.extend({
     onAdd: function(map) {
         
 		var div = L.DomUtil.create('div');
-		div.innerText = 'TEST\nTEST';
-        return div;
+
+		var a = document.createElement('a');
+		a.setAttribute('href','https://pilotfrompl.github.io/dronemaps/flights/Ulinowka-fragment/pl/WebODM%20report/82-23102024_report.pdf');
+		a.setAttribute('target', '_blank');
+		a.innerHTML= 'Download WebODM report';
+		
+		div.appendChild(a);
+		return div;
+		div.style.backgroundColor = '#fff';
     },
 
     onRemove: function(map) {
@@ -282,12 +289,14 @@ L.Control.infoCollapsedDiv = L.Control.extend({
 
 });
 
-L.control.infoCollapsedDiv = function(opts) {
-    return new L.Control.infoCollapsedDiv(opts);
+L.control.infoDiv = function(opts) {
+    return new L.Control.infoDiv(opts);
 }
 
-var info1Div = L.control.infoCollapsedDiv({ position: 'topright' }).addTo(map);
-
+var info1Div = L.control.infoDiv({ position: 'bottomright' }).addTo(map);
+info1Div.getContainer().style.background ='#fff';
+info1Div.getContainer().style.padding = '1px';
+info1Div.getContainer().style.margin = '2px';
 
 ////////////////////////////////////////////
 // EVENT: MAP ZOOM - ACTUALIZE zoomInfoDiv
